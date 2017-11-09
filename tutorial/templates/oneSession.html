@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Sesison Detail</h2>
+  <p>Student Name: {{ object.student.student.first_name }} {{ object.student.student.last_name }}</p>
+  <p>Tutor Name: {{ object.tutor.tutor.first_name }} {{ object.tutor.tutor.last_name }}</p>
+  <p>Start Time: {{ object.start_time }}</p>
+  <p>End Time: {{ object.end_time }}</p>
+  <p>Can Cancel?: {{ object.isLocked }}</p>
+{% endblock %}

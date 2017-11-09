@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Tutor List</h2>
+  {% if tutors_list %}
+  <ul>
+    {% for tutor in tutors_list %}
+    <li>
+      <img src="{{ MEDIA_URL }}{{ tutor.avatar }}" height="100" width="100" alt="Tutor Image"><br/>
+      {{ tutor.tutor.first_name }} {{ tutor.tutor.last_name }}<br/>
+      University: {{ tutor.university }}<br/>
+      Introduction: {{ tutor.introduction }}<br/>
+      Hourly Rate: {{ tutor.hourly_rate }} <br>
+    </li>
+
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No tutors are available.</p>
+  {% endif %}
+{% endblock %}

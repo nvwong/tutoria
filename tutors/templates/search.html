@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Tutor Search</h2>
+<form id="tutorsearchform" action="results" method="get" accept-charset="utf-8">
+  <input class="searchfield" id="namebox" name="tname" type="text" placeholder="Name"><br>
+  <input class="searchfield" id="unibox" name="university" type="text" placeholder="University"><br>
+  <input class="searchfield" id="coursebox" name="course" type="text" placeholder="Course"><br>
+  <input class="searchfield" id="tagbox" name="tags" type="text" placeholder="Tags"><br>
+  <input class="searchfield" id="ratebox" name="hourlyrate" type="number" placeholder="Hourly Rate"><br>
+  Private Tutor? <input class="searchfield" id="privatebox" name="privateornot" type="checkbox" placeholder="Private?"><br>
+  <input class="btn btn-primary" type="submit" value="Submit">
+
+</form>
+{% endblock %}

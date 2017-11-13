@@ -10,11 +10,11 @@
 </head>
 <body>
   <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Tutoria</a>
+  <a class="navbar-brand" href="/">Tutoria</a>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
+    <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+      <li class="nav-item">
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
@@ -24,16 +24,22 @@
         <a class="nav-link" href="#">My Sessions</a>
       </li>
     </ul>
+    <ul class="navbar-nav my-2 my-lg-0">
+      {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+      {% else %}
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+        <a class="nav-link disabled" href="#">Register</a>
+      {% endif %}
+    </ul>
   </div>
 </nav>
   <p></p><p></p>
   <div class="content container">
-    <div class="row">
-      <div class="col-md-8">
-        {% block content %}
-        {% endblock %}
-      </div>
-    </div>
+    {% block content %}
+    {% endblock %}
   </div>
 </body>
 </html>

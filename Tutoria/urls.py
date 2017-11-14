@@ -27,7 +27,8 @@ urlpatterns = [
     url(r'^tutorials/', include('tutorial.urls')),
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
-    url(r'^accounts/logout/$', logout, name='logout'),
+    url(r'^accounts/signup/$', views.signup, name='signup'),
+    url(r'^accounts/retain_password/$', views.retain_password, name='retain_password'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

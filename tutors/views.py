@@ -2,12 +2,12 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views import generic
 from django.db.models import Q
-from .models import Tutor
+from .models import Tutor, NotAvailableSlot
 from functools import reduce
 import operator
 
 # Create your views here.
-class indexView(generic.ListView):
+class TutorIndex(generic.ListView):
     model = Tutor
     context_object_name = 'tutors_list'
     template_name = 'list.html'
@@ -17,13 +17,13 @@ class indexView(generic.ListView):
 def search(request):
     return render_to_response('search.html')
 
-class searchResultView(generic.ListView):
+class SearchResults(generic.ListView):
     model = Tutor
     template_name = 'searchresults.html'
     context_object_name = 'search_results'
 
     def get_queryset(self):
-        result = super(searchResultView, self).get_queryset()
+        result = super(SearchResults, self).get_queryset()
         result = Tutor.objects.all()
 
         tname = self.request.GET.get('tname')
@@ -50,11 +50,21 @@ class searchResultView(generic.ListView):
         if hourlyrate:
             Qlist.append(Q(hourlyRate__lte=hourlyrate))
             Qlist.append(Q(privateTutor=True))
+        if not (private):
+            Qlist.append(Q(privateTutor=False))
 
         if Qlist:
             result = result.filter(reduce(operator.and_, Qlist))
 
         return result.order_by('-hourlyRate')
 
-def tutors(request, tutor_id):
-    return HttpResponse("Your are looking for tutor %s." % tutor_id)
+class ShowOneTutor(generic.DetailView):
+    model = Tutor
+    template_name = 'viewOneTutor.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(ShowOneTutor, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['unavailability_list'] = NotAvailableSlot.objects.all()
+        return context

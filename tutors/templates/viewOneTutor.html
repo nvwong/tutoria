@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Tutor Detail</h2><br>
+Tutor Avatar: <img src="{{ MEDIA_URL }}{{ object.avatar }}" height="100" width="100" alt="Tutor Avatar"> <br><br>
+Tutor Name: {{ object.tutor.first_name }} {{ object.tutor.last_name }} <br>
+Tutor's University: {{ object.university }} <br>
+Tutor's Introduction: {{ object.introduction }} <br>
+Tutor's Hourly Rate: {{ object.hourlyRate }} <br>
+<br><br>
+
+Tutor's Courses: <br>
+{% for course in object.courseTaught.all %}
+{{ course }} <br>
+{% endfor %}
+<br><br><br>
+
+Tutor's Unavailability: <br>
+{% for unavail in unavailability_list %}
+<ul>
+  {% if unavail.tutor == object %}
+    <li>
+      From {{ unavail.start_time|date:"d M Y" }} {{ unavail.start_time|time:"H:i" }} <br>
+      To {{ unavail.end_time|date:"d M Y" }} {{ unavail.end_time|time:"H:i" }}  <br>
+    </li>
+  {% endif %}
+</ul>
+{% endfor %}
+
+{% endblock %}

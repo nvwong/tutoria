@@ -9,4 +9,4 @@ class Session(models.Model):
     student = models.ForeignKey('students.Student', on_delete=models.CASCADE)
     tutor = models.ForeignKey('tutors.Tutor', on_delete=models.CASCADE)
     def __str__(self):
-        return str(self.isLocked)
+        return str(self.start_time)

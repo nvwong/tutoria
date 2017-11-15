@@ -44,7 +44,7 @@ class Tutor(models.Model):
         # Call the original save method
         super(Tutor, self).save(*args, **kwargs)
 
-class NotAvailableSlots(models.Model):
+class NotAvailableSlot(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()

@@ -24,9 +24,10 @@ from . import views
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="index.html"), name='index'),
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^tutors/', include('tutors.urls')),
     url(r'^tutorials/', include('tutorial.urls')),
+    url(r'^student/', include('students.urls')),
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^accounts/signup/$', views.signup, name='signup'),
@@ -35,7 +36,6 @@ urlpatterns = [
     url(r'^accounts/reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^accounts/reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
-
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,10 +9,9 @@
       <img src="{{ MEDIA_URL }}{{ tutor.avatar }}" height="100" width="100" alt="Tutor Image"><br/>
       {{ tutor.tutor.first_name }} {{ tutor.tutor.last_name }}<br/>
       University: {{ tutor.university }}<br/>
-      Introduction: {{ tutor.introduction }}<br/>
       Hourly Rate: {{ tutor.hourlyRate }} <br>
     </li>
-
+    <a href="{% url 'tutors:tutor_detail' pk=tutor.id %}">View This Tutor</a> <br><br>
     {% endfor %}
   </ul>
   {% else %}

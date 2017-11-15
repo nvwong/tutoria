@@ -12,7 +12,7 @@
       Introduction: {{ tutor.introduction }}<br/>
       Hourly Rate: {{ tutor.hourlyRate }} <br>
     </li>
-
+    <a href="{% url 'tutors:tutor_detail' pk=tutor.id %}">View This Tutor</a> <br><br>
     {% endfor %}
   </ul>
   {% else %}

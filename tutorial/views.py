@@ -4,6 +4,6 @@ from django.views import generic
 from .models import Session
 
 # Create your views here.
-class oneSessionView(generic.DetailView):
+class ShowOneSession(generic.DetailView):
     model = Session
     template_name = 'oneSession.html'

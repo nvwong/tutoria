@@ -17,9 +17,12 @@
                 <td>{{ form.password }}</td>
             </tr>
         </table>
+        <p><a href="/account/password_reset">Click me to reset password </a></p>
+
 
         <input type="submit" value="Login" />
         <input type="hidden" name="next" value="{{ next }}" />
+
 
     </form>
 {% endblock %}

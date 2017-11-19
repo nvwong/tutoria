@@ -39,6 +39,6 @@ class Lock_and_End(CronJobBase):
             if session.start_time == current_time:
                 session.isLocked = True
             if session.end_time == current_time:
-                session.tutor.tutor.wallet += session.tutor.hourly_rate
+                session.tutor.tutor.wallet += session.tutor.hourlyRate
             session.save()
                 #myTutors.wallet += session.tutor.hourly_rate*0.05

@@ -42,7 +42,7 @@ def cancel(request):
         return render(request, 'session_list.html', {'error_message': "You didn't select a session.",})
     else:
         student = request.user
-        amount = selected_session.tutor.hourly_rate * 1.05
+        amount = selected_session.tutor.hourlyRate * 1.05
         student.student.wallet +=  amount
         student.save()
         endtime = str(selected_session.end_time)

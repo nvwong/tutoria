@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^tutors/', include('tutors.urls')),
     url(r'^students/',include('students.urls')),
     url(r'^tutorials/', include('tutorial.urls')),
-    url(r'^student/', include('students.urls')),
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^accounts/signup/$', views.signup, name='signup'),

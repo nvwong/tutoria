@@ -7,8 +7,8 @@ def user_directory_path(instance, filename):
     return 'avatar/user_{0}.jpg'.format(instance.tutor.username)
 
 class Course(models.Model):
-    course_code = models.CharField(max_length=8)
-    course_name = models.CharField(max_length=20)
+    course_code = models.CharField(max_length=8, blank=True)
+    course_name = models.CharField(max_length=20, blank=True)
     def __str__(self):
         return self.course_code
 
@@ -21,10 +21,10 @@ class Tutor(models.Model):
     tutor = models.OneToOneField(User, on_delete=models.CASCADE) #extends User class
     privateTutor = models.BooleanField(default=False)
     timePerSlot = models.PositiveIntegerField(default=60)
-    university = models.CharField(max_length=50)
-    phoneNumber = models.CharField(max_length=8)
+    university = models.CharField(max_length=50, blank=True)
+    phoneNumber = models.CharField(max_length=8, blank=True)
     avatar = models.ImageField(upload_to=user_directory_path)
-    introduction = models.TextField(max_length=100)
+    introduction = models.TextField(max_length=100, blank=True)
     hourlyRate = models.PositiveIntegerField(default=0)
     wallet = models.PositiveIntegerField(default=0)
     rating = models.PositiveIntegerField(default=0)
@@ -47,5 +47,5 @@ class Tutor(models.Model):
 
 class NotAvailableSlot(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)

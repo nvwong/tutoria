@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "django_cron",
     'bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -128,5 +129,13 @@ MEDIA_URL = '/images/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'email_backend')
+
 LOGIN_REDIRECT_URL = "/tutors/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+CRON_CLASSES = [
+    "tutorial.cron.Lock_and_End",
+    # ...
+]

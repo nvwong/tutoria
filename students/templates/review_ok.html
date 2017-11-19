@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+Your review is submitted.<br>
+<a href="{% url 'students:review_list'%}">Back to review page</a><br>
+<a href="{% url 'tutorial:session_list'%}">Back to search page</a>
+{% endblock %}

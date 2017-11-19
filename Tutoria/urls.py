@@ -22,9 +22,11 @@ from django.contrib.auth.views import login, logout
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^tutors/', include('tutors.urls')),
+    url(r'^students/',include('students.urls')),
     url(r'^tutorials/', include('tutorial.urls')),
     url(r'^accounts/login/$',login, name='login'),
     url(r'^accounts/logout/$',logout, name='logout'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

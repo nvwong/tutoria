@@ -23,6 +23,7 @@ class Tutor(models.Model):
     hourly_rate = models.PositiveIntegerField(default=0)
     wallet = models.PositiveIntegerField(default=0)
     rating = models.PositiveIntegerField(default=0)
+    rate_time = models.PositiveIntegerField(default=0)
     #course_taught = models.ForeignKey(Course, on_delete=models.CASCADE)
     course_taught = models.ManyToManyField(Course)
     # not_available = models.ForeignKey(TutorNotAvailableSlot, on_delete=models.CASCADE) #Tutor with many not available timeslot

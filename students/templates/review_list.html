@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<h1>Available Review List</h1>
+{% csrf_token %}
+{% if review_list %}
+  <ul>
+    {% for session in review_list %}
+    <li>
+      <a href="{{ session.id }}">Session {{ forloop.counter }}</a><br />
+      Start Time: {{session.start_time}}<br/>
+      End Time: {{session.end_time}}<br/>
+      Tutor name: {{session.tutor.tutor.get_full_name}}<br/>
+    </li>
+    {% endfor %}
+  </ul>
+{% else %}
+    <p>No reviews are available.</p>
+{% endif %}
+
+{% endblock %}

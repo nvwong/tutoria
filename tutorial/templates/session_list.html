@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<h1>Booked Session List</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'tutorial:make_cancel' %}" method="post">
+{% csrf_token %}
+{% if latest_session_list %}
+
+    {% for session in latest_session_list %}
+
+          <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ session.id }}" />
+          <label for="choice{{ forloop.counter }}">Session {{ forloop.counter }}</label><br />
+          Start Time: {{session.start_time}}<br/>
+          End Time: {{session.end_time}}<br/>
+          Tutor name: {{session.tutor.tutor.get_full_name}}<br/>
+    {% endfor %}
+    <input type="submit" value="Cancel Selected Session" />
+{% else %}
+    <p>No sessions are available.</p>
+{% endif %}
+</form>
+{% endblock %}

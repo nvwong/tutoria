@@ -9,7 +9,7 @@ from tutors.models import Tutor
 from students.models import Student
 
 # Create your views here.
-class oneSessionView(generic.DetailView):
+class ShowOneSession(generic.DetailView):
     model = Session
     template_name = 'oneSession.html'
 

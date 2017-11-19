@@ -12,34 +12,40 @@ class Course(models.Model):
     def __str__(self):
         return self.course_code
 
+class Tag(models.Model):
+    tag_name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.tag_name
+
 class Tutor(models.Model):
     tutor = models.OneToOneField(User, on_delete=models.CASCADE) #extends User class
-    private_tutor = models.BooleanField(default=False)
-    time_per_slot = models.PositiveIntegerField(default=60)
+    privateTutor = models.BooleanField(default=False)
+    timePerSlot = models.PositiveIntegerField(default=60)
     university = models.CharField(max_length=50)
-    phone_number = models.CharField(max_length=8)
+    phoneNumber = models.CharField(max_length=8)
     avatar = models.ImageField(upload_to=user_directory_path)
     introduction = models.TextField(max_length=100)
-    hourly_rate = models.PositiveIntegerField(default=0)
+    hourlyRate = models.PositiveIntegerField(default=0)
     wallet = models.PositiveIntegerField(default=0)
     rating = models.PositiveIntegerField(default=0)
     rate_time = models.PositiveIntegerField(default=0)
     #course_taught = models.ForeignKey(Course, on_delete=models.CASCADE)
-    course_taught = models.ManyToManyField(Course)
+    courseTaught = models.ManyToManyField(Course)
+    tags = models.ManyToManyField(Tag)
     # not_available = models.ForeignKey(TutorNotAvailableSlot, on_delete=models.CASCADE) #Tutor with many not available timeslot
     def __str__(self):
         return self.tutor.get_username()
 
     def save(self, *args, **kwargs):
-        if self.private_tutor:
-            self.time_per_slot = 60
-        elif not self.private_tutor:
-            self.time_per_slot = 30
-            self.hourly_rate = 0
+        if self.privateTutor:
+            self.timePerSlot = 60
+        elif not self.privatTutor:
+            self.timePerSlot = 30
+            self.hourlyRate = 0
         # Call the original save method
         super(Tutor, self).save(*args, **kwargs)
 
-class NotAvailableSlots(models.Model):
+class NotAvailableSlot(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()

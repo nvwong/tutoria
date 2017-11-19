@@ -13,7 +13,8 @@ class Session(models.Model):
     tutor = models.ForeignKey('tutors.Tutor', on_delete=models.CASCADE)
     reviewed = models.BooleanField(default=False)
     def __str__(self):
-        return str(self.isLocked)
+
+        return str(self.start_time)
 
 class Review(models.Model):
     session = models.OneToOneField(Session, on_delete=models.CASCADE)

@@ -44,12 +44,13 @@ def cancel(request):
         student = request.user
         amount = selected_session.tutor.hourlyRate * 1.05
         student.student.wallet +=  amount
+        #myTutors.wallet -= amount #transfer money from myTutor to student
         student.save()
         endtime = str(selected_session.end_time)
-        body ='Dear ' + selected_session.tutor.tutor.get_full_name() + ',\n' + 'A session from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Go to Tutoria Homapage to check it out.'
+        body ='Dear ' + selected_session.tutor.tutor.get_full_name() + ',\n' + 'A session booked by ' + student.student.username + ' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Go to Tutoria Homapage to check it out.\nTutoria'
         mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [selected_session.tutor.tutor.email])
 
-        body ='Dear ' + selected_session.student.student.get_full_name() + ',\n' + 'A session from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Go to Tutoria Homapage to check it out.'
+        body ='Dear ' + selected_session.student.student.get_full_name() + ',\n' + 'A session taught by '+ selected_session.tutor.tutor.username +' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Your wallet value now is: $'+ str(student.student.wallet) +'. Go to Tutoria Homapage to check it out.\nTutoria'
         mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [selected_session.student.student.email])
 
         selected_session.delete()

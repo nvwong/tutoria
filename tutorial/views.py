@@ -21,7 +21,7 @@ class sessionListView(generic.ListView):
     def get_queryset(self):
         student = self.request.user
         username = student.username
-        return Session.objects.filter(student__student__username=username)
+        return Session.objects.filter(student__student__username=username).filter(isLocked=False)
 
     def get_context_data(self, **kwargs):
         context = super(sessionListView, self).get_context_data(**kwargs)

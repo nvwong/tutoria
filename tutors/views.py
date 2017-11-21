@@ -4,6 +4,7 @@ from django.views import generic
 from django.db.models import Q
 from .models import Tutor, NotAvailableSlot
 from functools import reduce
+from tutorial.models import Session
 import operator
 
 # Create your views here.
@@ -68,3 +69,23 @@ class ShowOneTutor(generic.DetailView):
         # Add in a QuerySet of all the books
         context['unavailability_list'] = NotAvailableSlot.objects.all()
         return context
+
+class MySessions(generic.ListView):
+    context_object_name = 'sessions_list'
+    template_name = 'upcomingsessions.html'
+
+    def get_queryset(self):
+        session = Session.objects.filter(tutor__tutor=self.request.user)
+        upcoming = session.filter(isLocked=False)
+        return upcoming
+
+class MyWallet(generic.ListView):
+    model = Session
+    context_object_name = 'sessions_list'
+    template_name = 'wallet.html'
+
+    def get_queryset(self):
+        session = Session.objects.filter(tutor__tutor=self.request.user)
+        trans_history = session.filter(isLocked=True)
+        return trans_history
+

@@ -2,8 +2,7 @@
 
 {% block content %}
 <h2>My Wallet</h2>
-    <p>Balance:</p>
-    <p> {{ request.user.wallet }}</p>
+    <p>Balance: ${{ user.tutor.wallet }}</p>
 <br>
 
 <h2>Transaction Record:</h2>
@@ -14,7 +13,7 @@
     <ul>
       <li>Start Time: {{ session.start_time|date:"d M Y" }} {{ session.start_time|time:"H:i" }}</li>
       <li>End Time: {{ session.end_time|date:"d M Y" }} {{ session.end_time|time:"H:i" }}</li>
-      <li>Amount: {{ request.user.hourlyrate }}</li>
+      <li>Amount: -${{ session.tutor.hourlyRate }}</li>
     </ul>
   </li>
   {% endfor %}

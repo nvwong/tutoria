@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>My Wallet</h2>
+    <p>Balance: ${{ user.tutor.wallet }}</p>
+<br>
+
+<h2>Transaction Record:</h2>
+{% if sessions_list %}
+<ul>
+  {% for session in sessions_list %}
+  <li>
+    <ul>
+      <li>Start Time: {{ session.start_time|date:"d M Y" }} {{ session.start_time|time:"H:i" }}</li>
+      <li>End Time: {{ session.end_time|date:"d M Y" }} {{ session.end_time|time:"H:i" }}</li>
+      <li>Amount: -${{ session.tutor.hourlyRate }}</li>
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Transaction history is not available.</p>
+{% endif %}
+{% endblock %}

@@ -8,7 +8,11 @@ urlpatterns = [
     url(r'^review/$', views.ReviewList.as_view(), name='review_list'),
     url(r'^review/(?P<pk>[0-9]+)/$', views.ReviewForm.as_view(), name='review_form'),
     url(r'^review/(?P<pk>[0-9]+)/make/$', views.saveReview, name='save_review'),
+<<<<<<< HEAD
     url(r'^myprofile/$', views.MyProfile.as_view(), name='myprofile'),
     url(r'^myprofile/changedetails/$', views.ChangeDetails.as_view(), name='change_details'),
+=======
+    url(r'^wallet/$', views.MyWallet.as_view(), name='student_wallet'),
+>>>>>>> e75b200abe39ad4c27cf3549bd861ceb8ff8fffc
     #url(r'^review/ok/$',views.
 ]

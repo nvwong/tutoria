@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2> My Sessions </h2>
+
+{% if sessions_list %}
+
+<ol>
+  {% for session in sessions_list %}
+  <li>
+    <ul>
+      <li>Start Time: {{ session.start_time|date:"d M Y" }} {{ session.start_time|time:"H:i" }}</li>
+      <li>End Time: {{ session.end_time|date:"d M Y" }} {{ session.end_time|time:"H:i" }}</li>
+      <li>Student Name: {{ session.student.student.first_name }} {{ session.student.student.last_name }}</li>
+    </ul>
+  </li>
+  {% endfor %}
+</ol>
+{% else %}
+<p>No sessions are available.</p>
+{% endif %}
+{% endblock %}

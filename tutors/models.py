@@ -29,6 +29,7 @@ class Tutor(models.Model):
     wallet = models.PositiveIntegerField(default=0)
     rating = models.PositiveIntegerField(default=0)
     rate_time = models.PositiveIntegerField(default=0)
+    show_tutor = models.BooleanField(default=True)
     #course_taught = models.ForeignKey(Course, on_delete=models.CASCADE)
     courseTaught = models.ManyToManyField(Course)
     tags = models.ManyToManyField(Tag)

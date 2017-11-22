@@ -86,3 +86,20 @@ def saveReview(request, pk):
         session.save()
         return render(request,'review_ok.html')
         #HttpResponseRedirect(reverse('students:reviewok', args=()))
+
+class MyWallet(generic.ListView):
+    model = Session
+    context_object_name = 'sessions_list'
+    template_name = 'mywallet.html'
+
+    def get_queryset(self):
+        session = Session.objects.filter(student__student=self.request.user)
+        trans_history = session.filter(isLocked=True)
+        return trans_history
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(MyWallet, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['user'] = self.request.user
+        return context

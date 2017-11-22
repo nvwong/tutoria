@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^myprofile/$', views.MyProfile.as_view(), name='myprofile'),
     url(r'^myprofile/changedetails/$', views.ChangeDetails.as_view(), name='change_details'),
     url(r'^wallet/$', views.MyWallet.as_view(), name='student_wallet'),
+
     #url(r'^review/ok/$',views.
 ]

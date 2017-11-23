@@ -18,6 +18,30 @@ class TutorIndex(generic.ListView):
 def search(request):
     return render_to_response('search.html')
 
+class MyProfile(generic.ListView):
+    model = Tutor
+    context_object_name = 'myProfile'
+    template_name = 'myTutorProfile.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(MyProfile, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['user'] = self.request.user
+        return context
+
+class ChangeDetails(generic.ListView):
+    model = Tutor
+    context_object_name = 'myProfile'
+    template_name = 'changeTutorDetails.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(ChangeDetails, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['user'] = self.request.user
+        return context
+
 class SearchResults(generic.ListView):
     model = Tutor
     template_name = 'searchresults.html'

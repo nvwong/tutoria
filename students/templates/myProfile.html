@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2> My Profile </h2>
+      <p>Name:                   <br /> {{ user.first_name}} {{ user.last_name }}</p>
+      <p>Contact Email Address:  <br />{{ user.email }} </p>
+      <p>Contact Phone Number:   <br />{{ user.student.phone_number }} </p>
+      <form action="/students/myprofile/changedetails">
+          <input type="submit" value="Change Details" />
+      </form>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Change Details</h3>
+  <form action="/your-name/" method="post">
+      <p>
+        <label for="your_name">Name: </label>
+        <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
+      </p>
+      <p>
+      <label for="phone_number">Phone Number: </label>
+      <input id="phone_number" type="text" name="phone_number" value="{{ current_name }}">
+    </p>
+    <p>
+      <label for="email_address">Email Address: </label>
+      <input id="email_address" type="text" name="email_address" value="{{ current_name }}">
+    </p>
+    <p>
+      <label for="email_address">Show Profile to students: </label>
+      <input name=name id=id type=checkbox>
+    </p>
+      <input type="submit" value="OK">
+  </form>
+{% endblock %}

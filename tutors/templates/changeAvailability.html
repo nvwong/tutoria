@@ -4,7 +4,7 @@
   <h3>Add Unavilable time</h3>
   <form action="" method="post">{% csrf_token %}
       {{ form.as_p }}
+        <p><label> Formate: YYYY-MM-DD HH:MM:SS </label></p>
       <input type="submit" value="Save" />
-  <label> Formate: YYYY-MM-DD HH:MM:SS </label>
   </form>
 {% endblock %}

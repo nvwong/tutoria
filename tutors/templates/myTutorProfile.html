@@ -20,9 +20,9 @@
        {% endfor %}
       <a class="nav-link" href="{% url 'tutors:change_availability' %}">Change Availability</a>
       </li>
-      <li> Hourly Rate:   {{ user.tutor.hourlyRate }} </li>
+      <li> Hourly Rate(HKD):   {{ user.tutor.hourlyRate }} </li>
       {% if user.tutor.privateTutor %}
-      <a class="nav-link" href="{% url 'tutors:change_hourlyrate' %}">Edit</a>
+      <a class="nav-link" href="{% url 'tutors:change_hourlyrate' %}">Change Hourly Rate</a>
       {% endif %}
       <li> Private Tutor: {{user.tutor.privateTutor}}</li>
       <li>Contact Phone Number:   {{ user.tutor.phone_number }} </li>

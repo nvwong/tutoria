@@ -3,36 +3,20 @@
 {% block content %}
 <h2> My Profile tutor</h2>
       <img src="{{ MEDIA_URL }}{{ user.tutor.avatar }}" height="100" width="100" alt="Tutor Avatar"> <br><br>
-      <li>Name:                    {{ user.first_name}} {{ user.last_name }}</li>
-      <li>Contact Email Address:  {{ user.email }}
-      <a class="nav-link" href="{% url 'tutors:change_userdetail' %}">Change User Detail</a>
-       </li>
-      <li>Tutor's Unavailability: <br>
-       {% for unavail in unavailability_list %}
-       <ul>
-         {% if unavail.tutor == object %}
-           <p>
-             From {{ unavail.start_time|date:"d M Y" }} {{ unavail.start_time|time:"H:i" }} <br>
-             To {{ unavail.end_time|date:"d M Y" }} {{ unavail.end_time|time:"H:i" }}  <br>
-           </p>
-         {% endif %}
-       </ul>
-       {% endfor %}
-      <a class="nav-link" href="{% url 'tutors:change_availability' %}">Change Availability</a>
-      </li>
-      <li> Hourly Rate(HKD):   {{ user.tutor.hourlyRate }} </li>
+      <p>Name:                    {{ user.first_name}} {{ user.last_name }}</p>
+      <p>Contact Email Address:  {{ user.email }} </p>
+      <p>Contact Phone Number:   {{ user.tutor.phoneNumber }} </p>
+      <p> Time per slot :   {{ user.tutor.timePerSlot }} </p>
+      <p> University:   {{ user.tutor.university }} </p>
+      <p> Introduction:   {{ user.tutor.introduction }} </p>
       {% if user.tutor.privateTutor %}
-      <a class="nav-link" href="{% url 'tutors:change_hourlyrate' %}">Change Hourly Rate</a>
+      <p> Hourly Rate:   {{ user.tutor.hourlyRate }} </p>
       {% endif %}
-      <li> Private Tutor: {{user.tutor.privateTutor}}</li>
-      <li>Contact Phone Number:   {{ user.tutor.phone_number }} </li>
-      <li> Time per slot :   {{ user.tutor.timePerSlot }} </li>
-      <li> University:   {{ user.tutor.university }} </li>
-      <li> Introduction:   {{ user.tutor.introduction }} </li>
-      {% if user.tutor.privateTutor %}
-      {% endif %}
-      <li> Wallet:   {{ user.tutor.wallet }} </li>
-      <li> Rating:   {{ user.tutor.rating }} </li>
-      <a class="nav-link" href="{% url 'tutors:change_phonenumber' %}">Edit</a>
-      </li>
+      <p> Wallet:   {{ user.tutor.wallet }} </p>
+      <p> Rating:   {{ user.tutor.rating }} </p>
+      <p>Rate Time:  {{ user.tutor.rate_time }} </p>
+      <form action="/tutors/myprofile/changedetails">
+          <input type="submit" value="Change Details" />
+      </form>
+
 {% endblock %}

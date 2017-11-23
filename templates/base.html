@@ -34,10 +34,10 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'students:student_wallet' %}">My Wallet</a>
       </li>
-        {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'students:myprofile' %}">My Profile</a>
+          <a class="nav-link" href="{% url 'tutors:myprofile' %}">My Profile</a>
         </li>
+        {% if user.is_authenticated %}
         {% if user.is_superuser %}
           <li class="nav-item">
             <a class="nav-link" href="admin">Admin</a>

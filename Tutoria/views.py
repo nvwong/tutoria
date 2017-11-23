@@ -1,7 +1,9 @@
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect, render_to_response
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from tutors.models import Tutor
 from students.models import Student
@@ -21,11 +23,12 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'registration\signup.html', {'form': form})
 
+@login_required
 def start(request):
-    uid = request.user.username
+    uid = request.user.id
     user = User.objects.get(pk=request.user.id)
     if user.groups.filter(name='Student').exists():
-        template = 'search.html' #student index page
+        template = 'index'#'search.html' #student index page
     if user.groups.filter(name='Tutor').exists():
-        template = 'wallet.html'
-    return render(request,template,{}) #tutor index page
+        template = 'tutors:tutor_wallet'
+    return HttpResponseRedirect(reverse(template)) #tutor index page

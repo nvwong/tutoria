@@ -31,10 +31,10 @@
       </li>
     </ul>
     <ul class="navbar-nav my-2 my-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'tutors:myprofile' %}">My Profile</a>
-        </li>
         {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'students:myprofile' %}">My Profile</a>
+        </li>
         {% if user.is_superuser %}
           <li class="nav-item">
             <a class="nav-link" href="admin">Admin</a>

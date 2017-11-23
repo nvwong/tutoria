@@ -132,7 +132,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'email_backend')
 
-LOGIN_REDIRECT_URL = "/tutors/"
+LOGIN_REDIRECT_URL = "/start/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
 CRON_CLASSES = [

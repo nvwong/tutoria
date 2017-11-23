@@ -43,7 +43,7 @@ class MyProfile(generic.ListView):
 
 class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
     model = Tutor
-    fields = ['phoneNumber', 'timePerSlot','university', 'introduction','show_tutor','rate_time','courseTaught','tags']
+    fields = ['privateTutor','phoneNumber', 'timePerSlot','university', 'introduction','show_tutor','courseTaught']
     template_name = 'changeTutorPhoneNumber.html'
     template_name_suffix = '_update_form'
     success_message = 'List successfully saved!!!!'
@@ -51,11 +51,20 @@ class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
     def get_object(self, **kwargs):
         return Tutor.objects.get(tutor__username=self.request.user.username)
 
+class ChangeHourlyRate(SuccessMessageMixin,UpdateView):
+    model = Tutor
+    fields = ['hourlyRate']
+    template_name = 'changeTutorPhoneNumber.html'
+    template_name_suffix = '_update_form'
+    success_message = 'List successfully saved!!!!'
+
+    def get_object(self, **kwargs):
+        return Tutor.objects.get(tutor__username=self.request.user.username)
 
 class ChangeAvailability(SuccessMessageMixin,UpdateView):
     model = NotAvailableSlot
     fields = ['start_time', 'end_time']
-    template_name = 'changeTutorPhoneNumber.html'
+    template_name = 'changeTutorAvailability.html'
     template_name_suffix = '_update_form'
     success_message = 'List successfully saved!!!!'
 

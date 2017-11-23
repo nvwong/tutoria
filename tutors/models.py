@@ -40,7 +40,7 @@ class Tutor(models.Model):
     def save(self, *args, **kwargs):
         if self.privateTutor:
             self.timePerSlot = 60
-        elif not self.privatTutor:
+        elif not self.privateTutor:
             self.timePerSlot = 30
             self.hourlyRate = 0
         # Call the original save method

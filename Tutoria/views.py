@@ -1,7 +1,11 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import Group
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect, render_to_response
+from django.contrib.auth.models import User, Group
+from tutors.models import Tutor
+from students.models import Student
+from django.views import generic
 
 def signup(request):
     if request.method == 'POST':
@@ -18,7 +22,10 @@ def signup(request):
     return render(request, 'registration\signup.html', {'form': form})
 
 def start(request):
-    if request.user.groups.filter(name='student').count():
-        return render(request, '/tutors/search/',) #student index page
-    if request.user.groups.filter(name='tutor').count():
-        return render(request, '/tutors/wallet/',) #tutor index page
+    uid = request.user.username
+    user = User.objects.get(pk=request.user.id)
+    if user.groups.filter(name='Student').exists():
+        template = 'search.html' #student index page
+    if user.groups.filter(name='Tutor').exists():
+        template = 'wallet.html'
+    return render(request,template,{}) #tutor index page

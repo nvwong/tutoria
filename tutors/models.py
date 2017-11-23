@@ -29,6 +29,7 @@ class Tutor(models.Model):
     wallet = models.PositiveIntegerField(default=0)
     rating = models.PositiveIntegerField(default=0)
     rate_time = models.PositiveIntegerField(default=0)
+    show_tutor = models.BooleanField(default=True, blank=True)
     #course_taught = models.ForeignKey(Course, on_delete=models.CASCADE)
     courseTaught = models.ManyToManyField(Course)
     tags = models.ManyToManyField(Tag)
@@ -39,7 +40,7 @@ class Tutor(models.Model):
     def save(self, *args, **kwargs):
         if self.privateTutor:
             self.timePerSlot = 60
-        elif not self.privatTutor:
+        elif not self.privateTutor:
             self.timePerSlot = 30
             self.hourlyRate = 0
         # Call the original save method

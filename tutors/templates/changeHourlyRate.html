@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Change Hourly Rate</h3>
+  <form action="" method="post">{% csrf_token %}
+    <label> (HKD) </label>
+      {{ form.as_p }}
+      <input type="submit" value="Save" />
+  </form>
+{% endblock %}

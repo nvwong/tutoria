@@ -8,8 +8,11 @@ from students.models import Student
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 #from django.core.mail import EmailMessage
+from .models import User
 from tutors.models import Tutor
 from students.models import Student
+from django.views.generic.edit import UpdateView
+from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 class MyBookingsList(generic.ListView):
     context_object_name = 'sessions_list'
@@ -29,6 +32,25 @@ class MyProfile(generic.ListView):
         # Add in a QuerySet of all the books
         context['user'] = self.request.user
         return context
+
+class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
+    model = Student
+    fields = ['avatar','phone_number']
+    template_name = 'changePhoneNumber.html'
+    template_name_suffix = '_update_form'
+    success_message = 'List successfully saved!!!!'
+    def get_object(self, **kwargs):
+        return Student.objects.get(student__username=self.request.user.username)
+
+class ChangeUserdetail(SuccessMessageMixin,UpdateView):
+    model = User
+    fields = ['last_name', 'first_name', 'email']
+    template_name = 'changeUserdetail.html'
+    template_name_suffix = '_update_form'
+    success_message = 'List successfully saved!!!!'
+
+    def get_object(self, **kwargs):
+        return User.objects.get(id=self.request.user.id)
 
 class ChangeDetails(generic.ListView):
     model = Student

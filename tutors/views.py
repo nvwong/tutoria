@@ -64,7 +64,7 @@ class ChangeHourlyRate(SuccessMessageMixin,UpdateView):
 class ChangeAvailability(SuccessMessageMixin,UpdateView):
     model = NotAvailableSlot
     fields = ['start_time', 'end_time']
-    template_name = 'changeTutorAvailability.html'
+    template_name = 'changeAvailability.html'
     template_name_suffix = '_update_form'
     success_message = 'List successfully saved!!!!'
 

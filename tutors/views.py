@@ -6,10 +6,6 @@ from .models import Tutor, NotAvailableSlot
 from functools import reduce
 from tutorial.models import Session
 import operator
-from .models import User
-from .models import NotAvailableSlot
-from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic.edit import UpdateView
 
 # Create your views here.
 class TutorIndex(generic.ListView):
@@ -34,52 +30,17 @@ class MyProfile(generic.ListView):
         context['user'] = self.request.user
         return context
 
-    def get_data(self, **kwargs):
+class ChangeDetails(generic.ListView):
+    model = Tutor
+    context_object_name = 'myProfile'
+    template_name = 'changeTutorDetails.html'
+
+    def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
-        context = super(ShowOneTutor, self).get_context_data(**kwargs)
+        context = super(ChangeDetails, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['unavailability_list'] = NotAvailableSlot.objects.all()
+        context['user'] = self.request.user
         return context
-
-class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
-    model = Tutor
-    fields = ['avatar','privateTutor','phoneNumber', 'timePerSlot','university', 'introduction','show_tutor','courseTaught','tags']
-    template_name = 'changeTutorPhoneNumber.html'
-    template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
-
-    def get_object(self, **kwargs):
-        return Tutor.objects.get(tutor__username=self.request.user.username)
-
-class ChangeHourlyRate(SuccessMessageMixin,UpdateView):
-    model = Tutor
-    fields = ['hourlyRate']
-    template_name = 'changeHourlyRate.html'
-    template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
-
-    def get_object(self, **kwargs):
-        return Tutor.objects.get(tutor__username=self.request.user.username)
-
-class ChangeAvailability(SuccessMessageMixin,UpdateView):
-    model = NotAvailableSlot
-    fields = ['start_time', 'end_time']
-    template_name = 'changeAvailability.html'
-    template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
-
-    def get_object(self, **kwargs):
-        return Tutor.objects.get(tutor__username=self.request.user.username)
-
-class ChangeUserdetail(SuccessMessageMixin,UpdateView):
-    model = User
-    fields = ['last_name', 'first_name', 'email']
-    template_name = 'changeTutorUserdetail.html'
-    template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
-
-    def get_object(self, **kwargs):
-        return User.objects.get(id=self.request.user.id)
 
 class SearchResults(generic.ListView):
     model = Tutor
@@ -158,3 +119,4 @@ class MyWallet(generic.ListView):
         # Add in a QuerySet of all the books
         context['user'] = self.request.user
         return context
+

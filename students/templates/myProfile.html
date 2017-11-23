@@ -2,12 +2,11 @@
 
 {% block content %}
 <h2> My Profile </h2>
-      <img src="{{ MEDIA_URL }}{{ user.student.avatar }}" height="100" width="100" alt="Tutor Avatar"> <br><br>
       <p>Name:                   <br /> {{ user.first_name}} {{ user.last_name }}</p>
-      <p>Contact Email Address:  <br />{{ user.email }}
-      <a class="nav-link" href="{% url 'students:change_userdetail' %}">Change Basic Detail</a>
-      </p>
-      <p>Contact Phone Number:   <br />{{ user.student.phone_number }}
-            <a class="nav-link" href="{% url 'students:change_phonenumber' %}">Change Phone Number/ Avatar</a>
-            </p>
+      <p>Contact Email Address:  <br />{{ user.email }} </p>
+      <p>Contact Phone Number:   <br />{{ user.student.phone_number }} </p>
+      <form action="/students/myprofile/changedetails">
+          <input type="submit" value="Change Details" />
+      </form>
+
 {% endblock %}

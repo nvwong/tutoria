@@ -3,7 +3,6 @@ from django.views import generic
 from tutorial.models import Session, Review
 from tutors.models import Tutor
 from .models import Student
-from .models import User
 from datetime import date, time, datetime
 from students.models import Student
 from django.http import HttpResponseRedirect, HttpResponse
@@ -11,8 +10,6 @@ from django.urls import reverse
 #from django.core.mail import EmailMessage
 from tutors.models import Tutor
 from students.models import Student
-from django.views.generic.edit import UpdateView
-from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 class MyBookingsList(generic.ListView):
     context_object_name = 'sessions_list'
@@ -33,25 +30,17 @@ class MyProfile(generic.ListView):
         context['user'] = self.request.user
         return context
 
-class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
+class ChangeDetails(generic.ListView):
     model = Student
-    fields = ['avatar','phone_number']
-    template_name = 'changePhoneNumber.html'
-    template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
+    context_object_name = 'myProfile'
+    template_name = 'changeDetails.html'
 
-    def get_object(self, **kwargs):
-        return Student.objects.get(student__username=self.request.user.username)
-
-class ChangeUserdetail(SuccessMessageMixin,UpdateView):
-    model = User
-    fields = ['last_name', 'first_name', 'email']
-    template_name = 'changeUserdetail.html'
-    template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
-
-    def get_object(self, **kwargs):
-        return User.objects.get(id=self.request.user.id)
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(ChangeDetails, self).get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['user'] = self.request.user
+        return context
 
 class ReviewList(generic.ListView):
     model = Session

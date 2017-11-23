@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_tutor.html' %}
 
 {% block content %}
 <h2> My Profile tutor</h2>
@@ -20,6 +20,8 @@
        {% endfor %}
       <a class="nav-link" href="{% url 'tutors:change_availability' %}">Change Availability</a>
       </li>
+      <li> Hourly Rate(HKD):   {{ user.tutor.hourlyRate }} </li>
+      {% if user.tutor.privateTutor %}
       <a class="nav-link" href="{% url 'tutors:change_hourlyrate' %}">Change Hourly Rate</a>
       {% endif %}
       <li> Private Tutor: {{user.tutor.privateTutor}}</li>
@@ -33,5 +35,4 @@
       <li> Rating:   {{ user.tutor.rating }} </li>
       <a class="nav-link" href="{% url 'tutors:change_phonenumber' %}">Edit</a>
       </li>
-
 {% endblock %}

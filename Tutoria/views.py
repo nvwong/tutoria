@@ -30,5 +30,5 @@ def start(request):
     if user.groups.filter(name='Student').exists():
         template = 'index'#'search.html' #student index page
     if user.groups.filter(name='Tutor').exists():
-        template = 'tutors:tutor_wallet'
+        template = 'index_tutor'
     return HttpResponseRedirect(reverse(template)) #tutor index page

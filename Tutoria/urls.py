@@ -24,6 +24,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="index.html"), name='index'),
+    url(r'^it/', TemplateView.as_view(template_name="index_tutor.html"), name='index_tutor'),
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^tutors/', include('tutors.urls')),
     url(r'^students/',include('students.urls')),

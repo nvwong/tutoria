@@ -43,7 +43,7 @@ class MyProfile(generic.ListView):
 
 class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
     model = Tutor
-    fields = ['privateTutor','phoneNumber', 'timePerSlot','university', 'introduction','show_tutor','courseTaught','tags']
+    fields = ['avatar','privateTutor','phoneNumber', 'timePerSlot','university', 'introduction','show_tutor','courseTaught','tags']
     template_name = 'changeTutorPhoneNumber.html'
     template_name_suffix = '_update_form'
     success_message = 'List successfully saved!!!!'

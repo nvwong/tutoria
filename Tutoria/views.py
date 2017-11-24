@@ -7,8 +7,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from tutors.models import Tutor
 from students.models import Student
-from .forms import MyRegistrationForm
 from django.views import generic
+from .forms import TutorRegistrationForm, StudentRegistrationForm
 
 def signup(request):
     if request.method == 'POST':
@@ -24,9 +24,10 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
 
+
 def signup_tutor(request):
     if request.method == 'POST':
-        form = MyRegistrationForm(request.POST)
+        form = TutorRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -35,14 +36,14 @@ def signup_tutor(request):
             login(request, user)
             return redirect('/tutors/')
     else:
-        form = MyRegistrationForm()
+        form = TutorRegistrationForm()
     return render(request, 'registration/signup_tutor.html', {'form': form})
 
 
 
 def signup_student(request):
     if request.method == 'POST':
-        form = MyRegistrationForm(request.POST)
+        form = StudentRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -51,8 +52,9 @@ def signup_student(request):
             login(request, user)
             return redirect('/tutors/')
     else:
-        form = MyRegistrationForm()
+        form = StudentRegistrationForm()
     return render(request, 'registration/signup_student.html', {'form': form})
+
 
 @login_required
 def start(request):

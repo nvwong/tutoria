@@ -1,0 +1,23 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Tutoria password reset
+From: webmaster@localhost
+To: vincent031052@gmail.com
+Date: Fri, 24 Nov 2017 08:54:37 -0000
+Message-ID: <20171124085437.12044.7352@FishYing>
+
+
+To initiate the password reset process for your student1 Tutoria Account,
+click the link below:
+
+http://127.0.0.1:8000/accounts/reset/Mg/4rf-0512ba2b2c2dbb9e359b/
+
+If clicking the link above doesn't work, please copy and paste the URL in a new browser
+window instead.
+
+Sincerely,
+The Tutoria Supporting Team
+
+
+-------------------------------------------------------------------------------

@@ -1,21 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <button type="submit">Sign up</button>
-  </form>
+<div align="center" class="container-fluid">
+	<div class="row">
+		<div class="col-md-4">
+		</div>
+		<div class="col-md-4">
+			<h3 class="text-center">
+				Sign up
+
+
+			</h3>
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				{% if user.is_authenticated %}
+				<button type="button" onclick="window.location.href='{% url 'tutors:tutor_search' %}'" class="btn btn-block btn-lg btn-primary">
+					Search For Tutors
+				</button>
+				{% else %}
+				<div class="col-md-6">
+					<button type="button" onclick="window.location.href='{% url 'signup_tutor' %}'" class="btn btn-block btn-lg btn-primary">
+						You are tutor.
+					</button>
+				</div>
+				<div class="col-md-6">
+					<button type="button" onclick="window.location.href='{% url 'signup_student' %}'" class="btn btn-block btn-lg btn-primary">
+						You are student.
+					</button>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+</div>
 {% endblock %}

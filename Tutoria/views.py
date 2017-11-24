@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from tutors.models import Tutor
 from students.models import Student
+from .forms import MyRegistrationForm
 from django.views import generic
 
 def signup(request):
@@ -21,7 +22,37 @@ def signup(request):
             return redirect('/tutors/')
     else:
         form = UserCreationForm()
-    return render(request, 'registration\signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
+
+def signup_tutor(request):
+    if request.method == 'POST':
+        form = MyRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/tutors/')
+    else:
+        form = MyRegistrationForm()
+    return render(request, 'registration/signup_tutor.html', {'form': form})
+
+
+
+def signup_student(request):
+    if request.method == 'POST':
+        form = MyRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/tutors/')
+    else:
+        form = MyRegistrationForm()
+    return render(request, 'registration/signup_student.html', {'form': form})
 
 @login_required
 def start(request):

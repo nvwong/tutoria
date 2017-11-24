@@ -1,9 +1,11 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from tutors.models import Tutor
+from students.models import Student
 
 
-class MyRegistrationForm(UserCreationForm):
+class TutorRegistrationForm(UserCreationForm):
     username = forms.CharField(required=True)
     password = forms.CharField(required=True)
     email = forms.EmailField(required=True)
@@ -16,23 +18,49 @@ class MyRegistrationForm(UserCreationForm):
     introduction = forms.CharField(required=True)
 
     class Meta:
-        model = User
+        model = Tutor
         fields = ('username', 'email', 'password', 'phone_number', 'designed_name', 'university', 'course_code', 'tage', 'hourly_rate', 'introduction')
 
     def save(self, commit=True):
-        user = super(MyRegistrationForm, self).save(commit=False)
-        user.username = self.cleaned_data['username']
-        user.password = self.cleaned_data['password']
-        user.email = self.cleaned_data['email']
-        user.designed_name = self.cleaned_data['designed_name']
-        user.phone_number = self.cleaned_data['phone_number']
-        user.university = self.cleaned_data['university']
-        user.course_code = self.cleaned_data['course_code']
-        user.tag = self.cleaned_data['tag']
-        user.hourly_rate = self.cleaned_data['hourly_rate']
-        user.introduction = self.cleaned_data['introduction']
+        Tutor = super(TutorRegistrationForm, self).save(commit=False)
+        Tutor.username = self.cleaned_data['username']
+        Tutor.password = self.cleaned_data['password']
+        Tutor.email = self.cleaned_data['email']
+        Tutor.designed_name = self.cleaned_data['designed_name']
+        Tutor.phone_number = self.cleaned_data['phone_number']
+        Tutor.university = self.cleaned_data['university']
+        Tutor.course_code = self.cleaned_data['course_code']
+        Tutor.tag = self.cleaned_data['tag']
+        Tutor.hourly_rate = self.cleaned_data['hourly_rate']
+        Tutor.introduction = self.cleaned_data['introduction']
 
         if commit:
-            user.save()
+            Tutor.save()
 
-        return user
+        return Tutor
+
+
+class StudentRegistrationForm(UserCreationForm):
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
+    phone_number = forms.IntegerField(required=True)
+    designed_name = forms.CharField(required=True)
+
+
+    class Meta:
+        model = Student
+        fields = ('username', 'email', 'password', 'phone_number', 'designed_name')
+
+    def save(self, commit=True):
+        Student = super(StudentRegistrationForm, self).save(commit=False)
+        Student.username = self.cleaned_data['username']
+        Student.password = self.cleaned_data['password']
+        Student.email = self.cleaned_data['email']
+        Student.designed_name = self.cleaned_data['designed_name']
+        Student.phone_number = self.cleaned_data['phone_number']
+
+        if commit:
+            Student.save()
+
+        return Student

@@ -6,7 +6,7 @@
     {% endif %}
     <h2>Sign up as a student</h2>
 
-    <form class="student_signup_forms" method="post" action="{% url 'signup_student' %}">
+    <form class="student_signup_forms" method="post" action="{% url 'signup_student' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
              <tr>
@@ -14,12 +14,24 @@
                 <td>{{ form.username }}</td>
             </tr>
             <tr>
-                <td>{{ form.password.label_tag }}</td>
-                <td>{{ form.password }}</td>
+                <td>{{ form.password1.label_tag }}</td>
+                <td>{{ form.password1 }}</td>
             </tr>
             <tr>
-                <td>{{ form.designed_name.label_tag }}</td>
-                <td>{{ form.designed_name }}</td>
+                <td>{{ form.password2.label_tag }}</td>
+                <td>{{ form.password2 }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.avatar.label_tag }}</td>
+                <td>{{ form.avatar }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.first_name.label_tag }}</td>
+                <td>{{ form.first_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.last_name.label_tag }}</td>
+                <td>{{ form.last_name }}</td>
             </tr>
             <tr>
                 <td>{{ form.email.label_tag }}</td>

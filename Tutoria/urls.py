@@ -39,7 +39,7 @@ urlpatterns = [
     url(r'^accounts/reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^accounts/reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
-    url(r'^start/$', views.start, name='login_start'),
+    # url(r'^start/$', views.start, name='login_start'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

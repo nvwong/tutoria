@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'Tutoria.context_processors.base_template_name_context_processor',
             ],
         },
     },
@@ -132,8 +133,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'email_backend')
 
-LOGIN_REDIRECT_URL = "/start" #"/tutors/"
-LOGOUT_REDIRECT_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/" #"/tutors/"
+LOGOUT_REDIRECT_URL = "/"
 
 CRON_CLASSES = [
     "tutorial.cron.Lock_and_End",

@@ -26,5 +26,7 @@ Tutor's Unavailability: <br>
   {% endif %}
 </ul>
 {% endfor %}
+<br><br>
 
+<a href="{% url 'tutorial:make_booking' object.pk %}">Make a booking with this tutor</a>
 {% endblock %}

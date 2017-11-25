@@ -10,12 +10,12 @@
 </head>
 <body>
   <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">Tutoria</a>
+  <a class="navbar-brand" href="{% url 'index_tutor' %}">Tutoria</a>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-md-0">
       <li class="nav-item">
-        <a class="nav-link" href="/it">Home</a>
+        <a class="nav-link" href="{% url 'index_tutor' %}">Home</a>
       </li>
         <a class="nav-link" href="{% url 'tutors:tutor_sessions' %}">My Sessions</a>
       </li>
@@ -27,7 +27,7 @@
         </li>
         {% if user.is_superuser %}
           <li class="nav-item">
-            <a class="nav-link" href="admin">Admin</a>
+            <a class="nav-link" href="{% url 'admin' %}">Admin</a>
           </li>
         {% endif %}
         <li class="nav-item">

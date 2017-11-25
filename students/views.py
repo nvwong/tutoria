@@ -13,6 +13,7 @@ from tutors.models import Tutor
 from students.models import Student
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
+
 # Create your views here.
 class MyBookingsList(generic.ListView):
     context_object_name = 'sessions_list'
@@ -116,8 +117,8 @@ class MyWallet(generic.ListView):
 
     def get_queryset(self):
         session = Session.objects.filter(student__student=self.request.user)
-        trans_history = session.filter(isLocked=True)
-        return trans_history
+        # trans_history = session.filter(isLocked=True)
+        return session
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load extra_tags %}
 
 {% block content %}
 <h2>My Wallet</h2>
@@ -13,7 +14,7 @@
     <ul>
       <li>Start Time: {{ session.start_time|date:"d M Y" }} {{ session.start_time|time:"H:i" }}</li>
       <li>End Time: {{ session.end_time|date:"d M Y" }} {{ session.end_time|time:"H:i" }}</li>
-      <li>Amount: -${{ session.tutor.hourlyRate }}</li>
+      <li>Amount: -${{ session.tutor.hourlyRate|multiply:1.05 }}</li>
     </ul>
   </li>
   {% endfor %}

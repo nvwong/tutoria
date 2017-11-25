@@ -13,11 +13,11 @@
 
           <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ session.id }}" />
           <label for="choice{{ forloop.counter }}">Session {{ forloop.counter }}</label><br />
-          Start Time: {{session.start_time}}<br/>
-          End Time: {{session.end_time}}<br/>
+          Start Time: {{ session.start_time|date:"d M Y" }} {{ session.start_time|time:"H:i" }}<br/>
+          End Time: {{ session.end_time|date:"d M Y" }} {{ session.end_time|time:"H:i" }}<br/>
           Tutor name: {{session.tutor.tutor.get_full_name}}<br/>
     {% endfor %}
-    <input type="submit" value="Cancel Selected Session" />
+    <input type="submit" onclick="return confirm('Are you sure?')" value="Cancel Selected Session" />
 {% else %}
     <p>No sessions are available.</p>
 {% endif %}

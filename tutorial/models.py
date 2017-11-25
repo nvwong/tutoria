@@ -6,14 +6,13 @@ from datetime import date, time, datetime, timedelta
 # Create your models here.
 # Documentation of cron job: https://pypi.python.org/pypi/django-cron/0.2.8 http://django-cron.readthedocs.io/en/latest/installation.html
 class Session(models.Model):
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     isLocked = models.BooleanField(default=False)
     student = models.ForeignKey('students.Student', on_delete=models.CASCADE)
     tutor = models.ForeignKey('tutors.Tutor', on_delete=models.CASCADE)
     reviewed = models.BooleanField(default=False)
     def __str__(self):
-
         return str(self.start_time)
 
 class Review(models.Model):
@@ -34,7 +33,7 @@ class Lock_and_End(CronJobBase):
     def do(self):
         # do your thing here
         session_list = Session.objects.all()
-        current_time = time.now()
+        current_time = datetime.now()
         for session in session_list:
             if session.start_time == current_time:
                 session.isLocked = True

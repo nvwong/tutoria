@@ -47,7 +47,7 @@ class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
     fields = ['avatar','privateTutor','phoneNumber', 'timePerSlot','university', 'introduction','show_tutor','courseTaught','tags']
     template_name = 'changeTutorPhoneNumber.html'
     template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
+    success_message = 'Successfully saved!!!!'
 
     def get_object(self, **kwargs):
         return Tutor.objects.get(tutor__username=self.request.user.username)
@@ -57,7 +57,7 @@ class ChangeHourlyRate(SuccessMessageMixin,UpdateView):
     fields = ['hourlyRate']
     template_name = 'changeHourlyRate.html'
     template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
+    success_message = 'Successfully saved!!!!'
 
     def get_object(self, **kwargs):
         return Tutor.objects.get(tutor__username=self.request.user.username)
@@ -67,7 +67,7 @@ class ChangeAvailability(SuccessMessageMixin,UpdateView):
     fields = ['start_time', 'end_time']
     template_name = 'changeAvailability.html'
     template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
+    success_message = 'Successfully saved!!!!'
 
     def get_object(self, **kwargs):
         return Tutor.objects.get(tutor__username=self.request.user.username)
@@ -77,7 +77,7 @@ class ChangeUserdetail(SuccessMessageMixin,UpdateView):
     fields = ['last_name', 'first_name', 'email']
     template_name = 'changeTutorUserdetail.html'
     template_name_suffix = '_update_form'
-    success_message = 'List successfully saved!!!!'
+    success_message = 'Successfully saved!!!!'
 
     def get_object(self, **kwargs):
         return User.objects.get(id=self.request.user.id)

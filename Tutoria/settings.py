@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django_cron",
+    'django_cron',
     'bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',

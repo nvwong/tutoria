@@ -27,8 +27,9 @@ def signup(request):
 def start(request):
     uid = request.user.id
     user = User.objects.get(pk=request.user.id)
+    template = 'index'
     if user.groups.filter(name='Student').exists():
-        template = 'index'#'search.html' #student index page
+        template = 'index' #'search.html' #student index page
     if user.groups.filter(name='Tutor').exists():
         template = 'index_tutor'
     return HttpResponseRedirect(reverse(template)) #tutor index page

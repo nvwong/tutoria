@@ -20,14 +20,14 @@ def signup_tutor(request):
         if form.is_valid():
             user = form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
+            g = Group.objects.get(name='Tutor')
+            g.user_set.add(user)
             user.tutor.phoneNumber = form.cleaned_data.get('phoneNumber')
             user.tutor.privateTutor = form.cleaned_data.get('privateTutor')
             user.tutor.university = form.cleaned_data.get('university')
             user.tutor.hourly_rate = form.cleaned_data.get('hourly_rate')
             user.tutor.introduction = form.cleaned_data.get('introduction')
             user.tutor.avatar = form.cleaned_data['avatar']
-            g = Group.objects.get(name='Tutor')
-            g.user_set.add(user)
             user.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
@@ -45,11 +45,12 @@ def signup_student(request):
         form = StudentSignUpForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
+            g = Group.objects.get(name='Student')
+            g.user_set.add(user)
             user.refresh_from_db()  # load the profile instance created by the signal
             user.student.phone_number = form.cleaned_data.get('phone_number')
             user.student.avatar = form.cleaned_data['avatar']
-            g = Group.objects.get(name='Student')
-            g.user_set.add(user)
+
             user.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')

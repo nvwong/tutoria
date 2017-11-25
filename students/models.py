@@ -23,4 +23,5 @@ def update_user_student(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_student(sender, instance, **kwargs):
-    instance.student.save()
+    if instance.groups.filter(name='Student').exists():
+        instance.student.save()

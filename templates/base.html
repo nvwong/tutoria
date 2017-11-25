@@ -17,6 +17,7 @@
       <li class="nav-item">
         <a class="nav-link" href="/">Home</a>
       </li>
+      {% if user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'tutors:tutor_index' %}">Tutors</a>
       </li>
@@ -29,12 +30,14 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'students:mybookings' %}">My Sessions</a>
       </li>
+        {% endif %}
     </ul>
     <ul class="navbar-nav my-2 my-lg-0">
+      {% if user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'students:student_wallet' %}">My Wallet</a>
       </li>
-       {% if user.is_authenticated %}
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'students:myprofile' %}">My Profile</a>
         </li>

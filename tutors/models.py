@@ -54,7 +54,8 @@ def update_user_tutor(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_tutor(sender, instance, **kwargs):
-    instance.tutor.save()
+    if instance.groups.filter(name='Tutor').exists():
+        instance.tutor.save()
 
 class NotAvailableSlot(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)

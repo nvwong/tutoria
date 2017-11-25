@@ -1,0 +1,14 @@
+{% extends base_template_name %}
+
+{% block content %}
+<h2>Getting Money from Wallet</h2><br><br>
+
+<p>Balance: ${{ logged_user.wallet }}</p>
+
+
+How much to get?<br>
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" onclick="return confirm('Are you sure?')" value="Get" />
+</form>
+{% endblock %}

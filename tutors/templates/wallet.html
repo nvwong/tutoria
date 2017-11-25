@@ -2,23 +2,23 @@
 
 {% block content %}
 <h2>My Wallet</h2>
-    <p>Balance: ${{ user.tutor.wallet }}</p>
+    <p>Balance: ${{ logged_user.wallet }}</p>
+    <a href="{% url 'transaction:get' %}">Get Money!</a>
 <br>
 
 <h2>Transaction Record:</h2>
-{% if sessions_list %}
-<ul>
-  {% for session in sessions_list %}
+{% if transactions_list %}
+<ol>
+  {% for trans in transactions_list %}
   <li>
     <ul>
-      <li>Start Time: {{ session.start_time|date:"d M Y" }} {{ session.start_time|time:"H:i" }}</li>
-      <li>End Time: {{ session.end_time|date:"d M Y" }} {{ session.end_time|time:"H:i" }}</li>
-      <li>Amount: -${{ session.tutor.hourlyRate }}</li>
+      <li>Timestamp: {{ trans.timestamp|date:"d M Y" }} {{ trans.timestamp|time:"H:i" }}</li>
+      <li>Amount: {{ trans.amount }}</li>
     </ul>
   </li>
   {% endfor %}
-</ul>
+</ol>
 {% else %}
-<p>Transaction history is not available.</p>
+<p>No records are available.</p>
 {% endif %}
 {% endblock %}

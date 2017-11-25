@@ -7,6 +7,7 @@ from django.urls import reverse
 from .models import Session
 from tutors.models import Tutor, NotAvailableSlot
 from students.models import Student
+from transactions.models import Transaction
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -80,16 +81,18 @@ class MakeBooking (SuccessMessageMixin, generic.CreateView):
             form.instance.tutor = the_tutor
             form.instance.end_time = et
             new_unavail = NotAvailableSlot(tutor=the_tutor, start_time=st, end_time=et)
-            new_unavail.save()
             the_student.wallet -= (the_tutor.hourlyRate)*1.05
-            the_student.save()
+            new_trans = Transaction(owner=self.request.user, amount=(-(the_tutor.hourlyRate)*1.05), timestamp=timezone.now())
 
-            body ='Dear ' + the_tutor.tutor.get_full_name() + ',\n' + 'A session is booked by ' + the_student.student.get_full_name() + ' from ' + str(st) + ' to ' + str(et) + '. Go to Tutoria Homapage to check it out.\nTutoria'
+            body ='Dear ' + the_tutor.tutor.get_full_name() + ',\n' + 'A session is booked by ' + the_student.student.get_full_name() + ' from ' + str(st) + ' to ' + str(et) + '. Go to Tutoria Homepage to check it out.\nTutoria'
             mail.send_mail('A session is booked', body, 'admin@tutoria.com', [the_tutor.tutor.email])
 
             body ='Dear ' + the_student.student.get_full_name() + ',\n' + 'A session taught by '+ the_tutor.tutor.get_full_name() +' from ' + str(st) + ' to ' + str(et) + ' is booked. Your wallet value now is: $'+ str(the_student.wallet) +'. Go to Tutoria Homepage to check it out.\nTutoria'
             mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [the_student.student.email])
 
+            new_trans.save()
+            new_unavail.save()
+            the_student.save()
             return super(MakeBooking, self).form_valid(form)
         else:
             return super(MakeBooking, self).form_invalid(form)
@@ -117,21 +120,23 @@ def cancel(request):
         # Redisplay the session voting form.
         return render(request, 'session_list.html', {'error_message': "You didn't select a session.",})
     else:
-        student = request.user
+        student = Student.objects.get(student=request.user)
         amount = selected_session.tutor.hourlyRate * 1.05
-        student.student.wallet += amount
+        student.wallet += amount
         #myTutors.wallet -= amount #transfer money from myTutor to student
-        student.save()
+        new_trans = Transaction(owner=request.user, amount=amount, timestamp=timezone.now())
         endtime = str(selected_session.end_time)
-        body ='Dear ' + selected_session.tutor.tutor.get_full_name() + ',\n' + 'A session booked by ' + student.username + ' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Go to Tutoria Homapage to check it out.\nTutoria'
+        body ='Dear ' + selected_session.tutor.tutor.get_full_name() + ',\n' + 'A session booked by ' + selected_session.student.student.get_full_name() + ' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Go to Tutoria Homepage to check it out.\nTutoria'
         mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [selected_session.tutor.tutor.email])
 
-        body ='Dear ' + selected_session.student.student.get_full_name() + ',\n' + 'A session taught by '+ selected_session.tutor.tutor.get_full_name() +' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Your wallet value now is: $'+ str(student.student.wallet) +'. Go to Tutoria Homapage to check it out.\nTutoria'
+        body ='Dear ' + selected_session.student.student.get_full_name() + ',\n' + 'A session taught by '+ selected_session.tutor.tutor.get_full_name() +' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Your wallet value now is: $'+ str(student.wallet) +'. Go to Tutoria Homapage to check it out.\nTutoria'
         mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [selected_session.student.student.email])
 
         unavail = NotAvailableSlot.objects.get(tutor=selected_session.tutor, start_time=selected_session.start_time, end_time=selected_session.end_time)
         unavail.delete()
         selected_session.delete()
+        new_trans.save()
+        student.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.

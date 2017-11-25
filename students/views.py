@@ -14,6 +14,8 @@ from students.models import Student
 from transactions.models import Transaction
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
+from datetime import datetime, timedelta
+
 
 # Create your views here.
 class MyBookingsList(generic.ListView):
@@ -117,7 +119,11 @@ class MyWallet(generic.ListView):
     template_name = 'mywallet.html'
 
     def get_queryset(self):
-        return Transaction.objects.filter(owner=self.request.user)
+        earliest = datetime.today() - timedelta(days=30)
+        obj = Transaction.objects.all()
+        obj = obj.filter(timestamp__gte=earliest)
+        obj = obj.filter(owner=self.request.user)
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super(MyWallet, self).get_context_data(**kwargs)

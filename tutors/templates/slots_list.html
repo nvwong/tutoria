@@ -1,0 +1,24 @@
+{% extends base_template_name %}
+
+{% block content %}
+{% load static %}
+<h1>Unavailable Slots List</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'tutors:cancel_slot' %}" method="post">
+{% csrf_token %}
+{% if unavailability_list %}
+
+    {% for slot in unavailability_list %}
+
+          <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ slot.id }}" />
+          <label for="choice{{ forloop.counter }}">Slot {{ forloop.counter }}</label><br />
+          Start Time: {{ slot.start_time|date:"d M Y" }} {{ slot.start_time|time:"H:i" }}<br/>
+          End Time: {{ slot.end_time|date:"d M Y" }} {{ slot.end_time|time:"H:i" }}<br/>
+    {% endfor %}
+    <input type="submit" value="Cancel Selected Slot" onclick="return confirm('Do you want to cancel the selected session?')"/>
+{% else %}
+    <p>No slots are available.</p>
+{% endif %}
+</form>
+{% endblock %}

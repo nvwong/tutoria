@@ -38,6 +38,24 @@ class MyProfile(generic.ListView):
         context['unavailability_list'] = NotAvailableSlot.objects.filter(tutor__tutor=self.request.user)
         return context
 
+class UnavailabilityList (generic.ListView):
+    model = NotAvailableSlot
+    context_object_name = 'unavailability_list'
+    template_name = 'slots_list.html'
+
+    def get_queryset(self):
+        return NotAvailableSlot.objects.filter(tutor__tutor=self.request.user)
+
+def cancel_slot(request):
+    try:
+        selected_slot = NotAvailableSlot.objects.get(pk=request.POST['choice'])
+    except (KeyError, NotAvailableSlot.DoesNotExist):
+        # Redisplay the session voting form.
+        return render(request, 'slots_list.html', {'error_message': "You didn't select a slot.",})
+    else:
+        selected_slot.delete()
+        return render(request,'cancelok.html')
+
 class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
     model = Tutor
     fields = ['avatar','privateTutor','phoneNumber', 'timePerSlot','university', 'introduction','show_tutor','courseTaught','tags']

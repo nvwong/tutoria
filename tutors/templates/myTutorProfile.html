@@ -16,8 +16,9 @@
            </p>
        </ul>
        {% endfor %}
-      <a class="nav-link" href="{% url 'tutors:change_availability' %}">Change Availability</a>
       </li>
+      <a class="nav-link" href="{% url 'tutors:change_availability' %}">Add a Not Available Time</a>
+      <a class="nav-link" href="{% url 'tutors:tutor_notok' %}">Delete a Not Available Time</a>
       <li> Hourly Rate(HKD):   {{ user.tutor.hourlyRate }} </li>
       {% if user.tutor.privateTutor %}
       <a class="nav-link" href="{% url 'tutors:change_hourlyrate' %}">Change Hourly Rate</a>

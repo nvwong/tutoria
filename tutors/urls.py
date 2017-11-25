@@ -7,6 +7,8 @@ urlpatterns = [
     url(r'^search/$', views.search, name='tutor_search'),
     url(r'^search/results', views.SearchResults.as_view(), name='tutor_search_result'),
     url(r'^(?P<pk>[0-9]+)/$', views.ShowOneTutor.as_view(), name='tutor_detail'),
+    url(r'^notokslots/$', views.UnavailabilityList.as_view(), name='tutor_notok'),
+    url(r'^notokslots/cancel/$', views.cancel_slot, name='cancel_slot'),
     url(r'^myprofile/$', views.MyProfile.as_view(), name='myprofile'),
     url(r'^myprofile/changephonenumber/$', views.ChangePhoneNumber.as_view(success_url="/"), name='change_phonenumber'),
     url(r'^myprofile/changeavailability/$', views.ChangeAvailability.as_view(success_url="/"), name='change_availability'),

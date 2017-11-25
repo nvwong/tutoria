@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'tutorial.apps.TutorialConfig',
     'students.apps.StudentsConfig',
     'tutors.apps.TutorsConfig',
+    'transactions.apps.TransactionsConfig',
 ]
 
 MIDDLEWARE = [

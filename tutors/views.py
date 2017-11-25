@@ -5,12 +5,14 @@ from django.db.models import Q
 from .models import Tutor, NotAvailableSlot
 from functools import reduce
 from tutorial.models import Session
+from transactions.models import Transaction
 import operator
 from .models import User
 #from django.contrib.auth.models import User
 from .models import NotAvailableSlot
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import UpdateView
+from django.core.urlresolvers import reverse_lazy
 
 # Create your views here.
 class TutorIndex(generic.ListView):
@@ -21,7 +23,7 @@ class TutorIndex(generic.ListView):
         return Tutor.objects.all().order_by('-hourlyRate')
 
 def search(request):
-    return render_to_response('search.html')
+    return render(request, 'search.html')
 
 class MyProfile(generic.ListView):
     model = Tutor
@@ -33,21 +35,15 @@ class MyProfile(generic.ListView):
         context = super(MyProfile, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['user'] = self.request.user
-        return context
-
-    def get_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(ShowOneTutor, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['unavailability_list'] = NotAvailableSlot.objects.all()
+        context['unavailability_list'] = NotAvailableSlot.objects.filter(tutor__tutor=self.request.user)
         return context
 
 class ChangePhoneNumber(SuccessMessageMixin,UpdateView):
     model = Tutor
     fields = ['avatar','privateTutor','phoneNumber', 'timePerSlot','university', 'introduction','show_tutor','courseTaught','tags']
     template_name = 'changeTutorPhoneNumber.html'
-    template_name_suffix = '_update_form'
     success_message = 'Successfully saved!!!!'
+    success_url = reverse_lazy('tutors:myprofile')
 
     def get_object(self, **kwargs):
         return Tutor.objects.get(tutor__username=self.request.user.username)
@@ -56,28 +52,30 @@ class ChangeHourlyRate(SuccessMessageMixin,UpdateView):
     model = Tutor
     fields = ['hourlyRate']
     template_name = 'changeHourlyRate.html'
-    template_name_suffix = '_update_form'
     success_message = 'Successfully saved!!!!'
+    success_url = reverse_lazy('tutors:myprofile')
 
     def get_object(self, **kwargs):
         return Tutor.objects.get(tutor__username=self.request.user.username)
 
-class ChangeAvailability(SuccessMessageMixin,UpdateView):
+class ChangeAvailability(SuccessMessageMixin,generic.CreateView):
     model = NotAvailableSlot
     fields = ['start_time', 'end_time']
     template_name = 'changeAvailability.html'
-    template_name_suffix = '_update_form'
-    success_message = 'Successfully saved!!!!'
+    success_message = 'Successfully added!!!!'
+    success_url = reverse_lazy('tutors:myprofile')
 
-    def get_object(self, **kwargs):
-        return Tutor.objects.get(tutor__username=self.request.user.username)
+    def form_valid(self, form):
+        the_tutor = Tutor.objects.get(tutor=self.request.user)
+        form.instance.tutor = the_tutor
+        return super(ChangeAvailability, self).form_valid(form)
 
 class ChangeUserdetail(SuccessMessageMixin,UpdateView):
     model = User
     fields = ['last_name', 'first_name', 'email']
     template_name = 'changeTutorUserdetail.html'
-    template_name_suffix = '_update_form'
     success_message = 'Successfully saved!!!!'
+    success_url = reverse_lazy('tutors:myprofile')
 
     def get_object(self, **kwargs):
         return User.objects.get(id=self.request.user.id)
@@ -115,6 +113,8 @@ class SearchResults(generic.ListView):
         if hourlyrate:
             Qlist.append(Q(hourlyRate=hourlyrate))
             Qlist.append(Q(privateTutor=True))
+        if private:
+            Qlist.append(Q(privateTutor=True))
         if not (private):
             Qlist.append(Q(privateTutor=False))
 
@@ -135,27 +135,24 @@ class ShowOneTutor(generic.DetailView):
         return context
 
 class MySessions(generic.ListView):
+    model = Session
     context_object_name = 'sessions_list'
     template_name = 'upcomingsessions.html'
 
     def get_queryset(self):
         session = Session.objects.filter(tutor__tutor=self.request.user)
-        upcoming = session.filter(isLocked=False)
-        return upcoming
+        # upcoming = session.filter(isLocked=False)
+        return session
 
 class MyWallet(generic.ListView):
-    model = Session
-    context_object_name = 'sessions_list'
+    model = Transaction
+    context_object_name = 'transactions_list'
     template_name = 'wallet.html'
 
     def get_queryset(self):
-        session = Session.objects.filter(tutor__tutor=self.request.user)
-        trans_history = session.filter(isLocked=True)
-        return trans_history
+        return Transaction.objects.filter(owner=self.request.user)
 
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
         context = super(MyWallet, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['user'] = self.request.user
+        context['logged_user'] = Tutor.objects.get(tutor=self.request.user)
         return context

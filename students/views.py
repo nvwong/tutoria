@@ -120,10 +120,7 @@ class MyWallet(generic.ListView):
 
     def get_queryset(self):
         earliest = datetime.today() - timedelta(days=30)
-        obj = Transaction.objects.all()
-        obj = obj.filter(timestamp__gte=earliest)
-        obj = obj.filter(owner=self.request.user)
-        return obj
+        return Transaction.objects.filter(owner=self.request.user).filter(timestamp__gte=earliest).order_by('-timestamp')
 
     def get_context_data(self, **kwargs):
         context = super(MyWallet, self).get_context_data(**kwargs)

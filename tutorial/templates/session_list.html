@@ -17,7 +17,7 @@
           End Time: {{session.end_time}}<br/>
           Tutor name: {{session.tutor.tutor.get_full_name}}<br/>
     {% endfor %}
-    <input type="submit" value="Cancel Selected Session" />
+    <input type="submit" value="Cancel Selected Session" onclick="return confirm('Do you want to cancel the selected session?')"/>
 {% else %}
     <p>No sessions are available.</p>
 {% endif %}

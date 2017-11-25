@@ -50,7 +50,7 @@ def cancel(request):
         body ='Dear ' + selected_session.tutor.tutor.get_full_name() + ',\n' + 'A session booked by ' + student.student.username + ' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Go to Tutoria Homapage to check it out.\nTutoria'
         mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [selected_session.tutor.tutor.email])
 
-        body ='Dear ' + selected_session.student.student.get_full_name() + ',\n' + 'A session taught by '+ selected_session.tutor.tutor.username +' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Your wallet value now is: $'+ str(student.student.wallet) +'. Go to Tutoria Homapage to check it out.\nTutoria'
+        body ='Dear ' + selected_session.student.student.get_full_name() + ',\n' + 'A session taught by '+ selected_session.tutor.tutor.get_full_name() +' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Your wallet value now is: $'+ str(student.student.wallet) +'. Go to Tutoria Homapage to check it out.\nTutoria'
         mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [selected_session.student.student.email])
 
         selected_session.delete()

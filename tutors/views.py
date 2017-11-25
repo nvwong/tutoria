@@ -113,7 +113,7 @@ class SearchResults(generic.ListView):
         if tag:
             Qlist.append(Q(tags__tag_name__icontains=tag))
         if hourlyrate:
-            Qlist.append(Q(hourlyRate__lte=hourlyrate))
+            Qlist.append(Q(hourlyRate=hourlyrate))
             Qlist.append(Q(privateTutor=True))
         if not (private):
             Qlist.append(Q(privateTutor=False))

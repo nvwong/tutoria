@@ -16,6 +16,6 @@
   <option value="5" label="5">
 </datalist>
 <br>Review: <textarea list="tickmarks" name="review"></textarea><br>
-<input type="submit" value="Submit Review" />
+<input type="submit" value="Submit Review" onclick="return confirm('Do you want to submit the review?')"/>
 </form>
 {% endblock %}

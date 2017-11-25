@@ -10,33 +10,33 @@
 </head>
 <body>
   <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">Tutoria</a>
+  <a class="navbar-brand" href="{% url 'index' %}">Tutoria</a>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-md-0">
       <li class="nav-item">
-        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="{% url 'index' %}">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'tutors:tutor_index' %}">Tutors</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/tutorials/cancel/">Cancel a session</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/students/review/">Review</a>
+        <a class="nav-link" href="{% url 'students:review_list' %}">Review</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'students:mybookings' %}">My Sessions</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'tutorial:session_list' %}">Cancel a session</a>
+      </li>
     </ul>
     <ul class="navbar-nav my-2 my-lg-0">
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'students:student_wallet' %}">My Wallet</a>
-      </li>
        {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'students:myprofile' %}">My Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'students:student_wallet' %}">My Wallet</a>
         </li>
         {% if user.is_superuser %}
           <li class="nav-item">

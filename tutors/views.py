@@ -13,6 +13,8 @@ from .models import NotAvailableSlot
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse_lazy
+from datetime import datetime, timedelta
+
 
 # Create your views here.
 class TutorIndex(generic.ListView):
@@ -20,7 +22,7 @@ class TutorIndex(generic.ListView):
     context_object_name = 'tutors_list'
     template_name = 'list.html'
     def get_queryset(self):
-        return Tutor.objects.all().order_by('-hourlyRate')
+        return Tutor.objects.filter(show_tutor=True).order_by('-hourlyRate')
 
 def search(request):
     return render(request, 'search.html')
@@ -105,7 +107,7 @@ class SearchResults(generic.ListView):
 
     def get_queryset(self):
         result = super(SearchResults, self).get_queryset()
-        result = Tutor.objects.all()
+        result = Tutor.objects.filter(show_tutor=True)
 
         tname = self.request.GET.get('tname')
         uni = self.request.GET.get('university')
@@ -168,7 +170,8 @@ class MyWallet(generic.ListView):
     template_name = 'wallet.html'
 
     def get_queryset(self):
-        return Transaction.objects.filter(owner=self.request.user)
+        earliest = datetime.today() - timedelta(days=30)
+        return Transaction.objects.filter(owner=self.request.user).filter(timestamp__gte=earliest).order_by('-timestamp')
 
     def get_context_data(self, **kwargs):
         context = super(MyWallet, self).get_context_data(**kwargs)

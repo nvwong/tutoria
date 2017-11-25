@@ -1,0 +1,49 @@
+{% extends 'base_empty.html' %}
+
+{% block content %}
+{% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+    <h2>Sign up as a student</h2>
+
+    <form class="student_signup_forms" method="post" action="{% url 'signup_student' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+             <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password1.label_tag }}</td>
+                <td>{{ form.password1 }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password2.label_tag }}</td>
+                <td>{{ form.password2 }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.avatar.label_tag }}</td>
+                <td>{{ form.avatar }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.first_name.label_tag }}</td>
+                <td>{{ form.first_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.last_name.label_tag }}</td>
+                <td>{{ form.last_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.email.label_tag }}</td>
+                <td>{{ form.email }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.phone_number.label_tag }}</td>
+                <td>{{ form.phone_number }}</td>
+            </tr>
+        </table>
+
+        <button type="submit">Sign up</button>
+
+    </form>
+{% endblock %}

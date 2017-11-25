@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
@@ -45,6 +46,16 @@ class Tutor(models.Model):
             self.hourlyRate = 0
         # Call the original save method
         super(Tutor, self).save(*args, **kwargs)
+
+@receiver(post_save, sender=User)
+def update_user_tutor(sender, instance, created, **kwargs):
+    if created:
+        Tutor.objects.create(tutor=instance)
+
+@receiver(post_save, sender=User)
+def save_user_tutor(sender, instance, **kwargs):
+    if instance.groups.filter(name='Tutor').exists():
+        instance.tutor.save()
 
 class NotAvailableSlot(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)

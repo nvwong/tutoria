@@ -76,6 +76,10 @@ class MakeBooking (SuccessMessageMixin, generic.CreateView):
                 ok = False
                 messages.error(self.request, 'You do not have enough money.')
 
+            if (st.time() < datetime.time(hour=9)) or (et.time() > datetime.time(hour=22)):
+                ok = False
+                messages.error(self.request, 'Exceeded allowable time range. 9am-10pm only.')
+
         if ok:
             form.instance.student = the_student
             form.instance.tutor = the_tutor

@@ -20,7 +20,7 @@ class TutorIndex(generic.ListView):
     context_object_name = 'tutors_list'
     template_name = 'list.html'
     def get_queryset(self):
-        return Tutor.objects.all().order_by('-hourlyRate')
+        return Tutor.objects.filter(show_tutor=True).order_by('-hourlyRate')
 
 def search(request):
     return render(request, 'search.html')
@@ -105,7 +105,7 @@ class SearchResults(generic.ListView):
 
     def get_queryset(self):
         result = super(SearchResults, self).get_queryset()
-        result = Tutor.objects.all()
+        result = Tutor.objects.filter(show_tutor=True)
 
         tname = self.request.GET.get('tname')
         uni = self.request.GET.get('university')

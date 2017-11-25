@@ -32,8 +32,8 @@ class Tutor(models.Model):
     rate_time = models.PositiveIntegerField(default=0)
     show_tutor = models.BooleanField(default=True, blank=True)
     #course_taught = models.ForeignKey(Course, on_delete=models.CASCADE)
-    courseTaught = models.ManyToManyField(Course)
-    tags = models.ManyToManyField(Tag)
+    courseTaught = models.ManyToManyField(Course, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
     # not_available = models.ForeignKey(TutorNotAvailableSlot, on_delete=models.CASCADE) #Tutor with many not available timeslot
     def __str__(self):
         return self.tutor.get_username()
@@ -41,6 +41,7 @@ class Tutor(models.Model):
     def save(self, *args, **kwargs):
         if self.privateTutor:
             self.timePerSlot = 60
+            self.hourlyRate = round(self.hourlyRate, -1)
         elif not self.privateTutor:
             self.timePerSlot = 30
             self.hourlyRate = 0

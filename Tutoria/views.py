@@ -33,7 +33,7 @@ def signup_tutor(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('/it')
+            return redirect('/')
     else:
         form = TutorSignUpForm()
     return render(request, 'registration/signup_tutor.html', {'form': form})

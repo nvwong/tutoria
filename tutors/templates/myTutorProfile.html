@@ -10,12 +10,10 @@
       <li>Tutor's Unavailability: <br>
        {% for unavail in unavailability_list %}
        <ul>
-         {% if unavail.tutor == object %}
            <p>
              From {{ unavail.start_time|date:"d M Y" }} {{ unavail.start_time|time:"H:i" }} <br>
              To {{ unavail.end_time|date:"d M Y" }} {{ unavail.end_time|time:"H:i" }}  <br>
            </p>
-         {% endif %}
        </ul>
        {% endfor %}
       <a class="nav-link" href="{% url 'tutors:change_availability' %}">Change Availability</a>

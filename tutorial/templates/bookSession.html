@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Make a booking with {{ tutor.tutor.first_name }} {{ tutor.tutor.last_name }}</h2><br>
+
+Each tutorial session is {{ tutor.timePerSlot }} minutes long <br>
+and you will have to pay HK${{ fee }} (including commission). <br><br><br>
+
+Tutor's Unavailability:<br>
+{% for unavail in unavailability_list %}
+<ul>
+  {% if unavail.tutor == tutor %}
+    <li>
+      From {{ unavail.start_time|date:"d M Y" }} {{ unavail.start_time|time:"H:i" }} <br>
+      To {{ unavail.end_time|date:"d M Y" }} {{ unavail.end_time|time:"H:i" }}  <br>
+    </li>
+  {% endif %}
+</ul>
+{% endfor %}
+<br><br><br>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+Booking Time:<br>
+Format: YYYY-MM-DD HH:MM <br>
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" onclick="return confirm('Are you sure?')" value="Book" />
+</form>
+{% endblock %}

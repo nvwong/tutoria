@@ -13,6 +13,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.utils import timezone
 import datetime
+from decimal import Decimal
 
 # Create your views here.
 class ShowOneSession(generic.DetailView):
@@ -72,7 +73,7 @@ class MakeBooking (SuccessMessageMixin, generic.CreateView):
                 ok = False
                 messages.error(self.request, 'Cannot book further than 7 days.')
 
-            if (Wallet.objects.get(owner=the_student).balance < (the_tutor.hourlyRate)*1.05):
+            if (Wallet.objects.get(owner=the_student.student).balance < (the_tutor.hourlyRate)*1.05):
                 ok = False
                 messages.error(self.request, 'You do not have enough money.')
 
@@ -84,20 +85,21 @@ class MakeBooking (SuccessMessageMixin, generic.CreateView):
             form.instance.student = the_student
             form.instance.tutor = the_tutor
             form.instance.end_time = et
+            w = Wallet.objects.get(owner=the_student.student)
             new_unavail = NotAvailableSlot(tutor=the_tutor, start_time=st, end_time=et)
-            Wallet.objects.get(owner=the_student).balance -= (the_tutor.hourlyRate)*1.05
+            w.balance = w.balance - Decimal((the_tutor.hourlyRate)*1.05)
             new_trans = Transaction(owner=self.request.user, amount=(-(the_tutor.hourlyRate)*1.05), timestamp=timezone.now())
 
             body ='Dear ' + the_tutor.tutor.get_full_name() + ',\n' + 'A session is booked by ' + the_student.student.get_full_name() + ' from ' + str(st) + ' to ' + str(et) + '. Go to Tutoria Homepage to check it out.\nTutoria'
             mail.send_mail('A session is booked', body, 'admin@tutoria.com', [the_tutor.tutor.email])
 
-            body ='Dear ' + the_student.student.get_full_name() + ',\n' + 'A session taught by '+ the_tutor.tutor.get_full_name() +' from ' + str(st) + ' to ' + str(et) + ' is booked. Your wallet value now is: $'+ str(Wallet.objects.get(owner=the_student).balance) +'. Go to Tutoria Homepage to check it out.\nTutoria'
+            body ='Dear ' + the_student.student.get_full_name() + ',\n' + 'A session taught by '+ the_tutor.tutor.get_full_name() +' from ' + str(st) + ' to ' + str(et) + ' is booked. Your wallet value now is: $'+ str(w.balance) +'. Go to Tutoria Homepage to check it out.\nTutoria'
             mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [the_student.student.email])
 
             new_trans.save()
             new_unavail.save()
             the_student.save()
-            Wallet.objects.get(owner=the_student).save()
+            w.save()
             return super(MakeBooking, self).form_valid(form)
         else:
             return super(MakeBooking, self).form_invalid(form)
@@ -130,14 +132,14 @@ def cancel(request):
         else:
             student = Student.objects.get(student=request.user)
             amount = selected_session.tutor.hourlyRate * 1.05
-            Wallet.objects.get(owner=student).balance += amount
-            #myTutors.wallet -= amount #transfer money from myTutor to student
+            w = Wallet.objects.get(owner=student.student)
+            w.balance += Decimal(amount)
             new_trans = Transaction(owner=request.user, amount=amount, timestamp=timezone.now())
             endtime = str(selected_session.end_time)
             body ='Dear ' + selected_session.tutor.tutor.get_full_name() + ',\n' + 'A session booked by ' + selected_session.student.student.get_full_name() + ' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Go to Tutoria Homepage to check it out.\nTutoria'
             mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [selected_session.tutor.tutor.email])
 
-            body ='Dear ' + selected_session.student.student.get_full_name() + ',\n' + 'A session taught by '+ selected_session.tutor.tutor.get_full_name() +' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Your wallet value now is: $'+ str(Wallet.objects.get(owner=student).balance) +'. Go to Tutoria Homepage to check it out.\nTutoria'
+            body ='Dear ' + selected_session.student.student.get_full_name() + ',\n' + 'A session taught by '+ selected_session.tutor.tutor.get_full_name() +' from ' + str(selected_session.start_time) + ' to ' + str(selected_session.end_time) + ' is cancelled. Your wallet value now is: $'+ str(w.balance) +'. Go to Tutoria Homepage to check it out.\nTutoria'
             mail.send_mail('A session is cancelled', body, 'admin@tutoria.com', [selected_session.student.student.email])
 
             unavail = NotAvailableSlot.objects.get(tutor=selected_session.tutor, start_time=selected_session.start_time, end_time=selected_session.end_time)
@@ -145,7 +147,7 @@ def cancel(request):
             selected_session.delete()
             new_trans.save()
             student.save()
-            Wallet.objects.get(owner=the_student).save()
+            w.save()
             # Always return an HttpResponseRedirect after successfully dealing
             # with POST data. This prevents data from being posted twice if a
             # user hits the Back button.

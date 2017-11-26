@@ -19,7 +19,10 @@
       </li>
       {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'tutors:tutor_index' %}">Tutors</a>
+        <a class="nav-link" href="{% url 'tutors:tutor_index' %}">Tutors List</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'tutors:tutor_search' %}">Search</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'students:review_list' %}">Review</a>

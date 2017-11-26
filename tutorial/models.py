@@ -9,8 +9,8 @@ class Session(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     isLocked = models.BooleanField(default=False)
-    student = models.ForeignKey('students.Student', on_delete=models.CASCADE)
-    tutor = models.ForeignKey('tutors.Tutor', on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
     reviewed = models.BooleanField(default=False)
     def __str__(self):
         return str(self.start_time)

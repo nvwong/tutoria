@@ -115,6 +115,7 @@ class SearchResults(generic.ListView):
         tag = self.request.GET.get('tags')
         hourlyrate = self.request.GET.get('hourlyrate')
         private = self.request.GET.get('privateornot')
+        sort = self.request.GET.get('sort')
         Qlist = []
         if tname:
             name_words = tname.split()
@@ -133,15 +134,18 @@ class SearchResults(generic.ListView):
         if hourlyrate:
             Qlist.append(Q(hourlyRate=hourlyrate))
             Qlist.append(Q(privateTutor=True))
-        if private:
+        if (private=='p'):
             Qlist.append(Q(privateTutor=True))
-        if not (private):
+        if (private=='c'):
             Qlist.append(Q(privateTutor=False))
 
         if Qlist:
             result = result.filter(reduce(operator.and_, Qlist))
 
-        return result.order_by('-hourlyRate')
+        if (sort=='on'):
+            return result.order_by('hourlyRate')
+        else:
+            return result.order_by('-hourlyRate')
 
 class ShowOneTutor(generic.DetailView):
     model = Tutor

@@ -33,11 +33,14 @@ class Lock_and_End(CronJobBase):
     def do(self):
         # do your thing here
         session_list = Session.objects.all()
-        current_time = datetime.now()
+        current_time = timezone.now()
         for session in session_list:
             if session.start_time == current_time:
                 session.isLocked = True
             if session.end_time == current_time:
-                session.tutor.tutor.wallet += session.tutor.hourlyRate
+                Wallet.objects.get(owner=session.tutor).balance += session.tutor.hourlyRate
+                Wallet.objects.get(owner=session.tutor).save()
+                Wallet.objects.get(pk=1).balance += session.tutor.hourlyRate * 0.05
+                Wallet.objects.get(pk=1).save()
             session.save()
                 #myTutors.wallet += session.tutor.hourly_rate*0.05

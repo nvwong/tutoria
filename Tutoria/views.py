@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from tutors.models import Tutor
 from students.models import Student
+from transactions.models import Wallet
 from .forms import TutorSignUpForm, StudentSignUpForm
 from django.views import generic
 
@@ -29,6 +30,8 @@ def signup_tutor(request):
             user.tutor.introduction = form.cleaned_data.get('introduction')
             user.tutor.avatar = form.cleaned_data['avatar']
             user.save()
+            new_wallet = Wallet(owner=user)
+            new_wallet.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -52,6 +55,8 @@ def signup_student(request):
             user.student.phone_number = form.cleaned_data.get('phone_number')
             user.student.avatar = form.cleaned_data['avatar']
             user.save()
+            new_wallet = Wallet(owner=user)
+            new_wallet.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)

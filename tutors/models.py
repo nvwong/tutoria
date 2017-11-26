@@ -27,14 +27,11 @@ class Tutor(models.Model):
     avatar = models.ImageField(upload_to=user_directory_path)
     introduction = models.TextField(max_length=100, blank=True)
     hourlyRate = models.PositiveIntegerField(default=0)
-    wallet = models.PositiveIntegerField(default=0)
     rating = models.PositiveIntegerField(default=0)
     rate_time = models.PositiveIntegerField(default=0)
     show_tutor = models.BooleanField(default=True, blank=True)
-    #course_taught = models.ForeignKey(Course, on_delete=models.CASCADE)
     courseTaught = models.ManyToManyField(Course, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    # not_available = models.ForeignKey(TutorNotAvailableSlot, on_delete=models.CASCADE) #Tutor with many not available timeslot
     def __str__(self):
         return self.tutor.get_username()
 

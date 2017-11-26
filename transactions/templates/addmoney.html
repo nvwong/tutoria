@@ -2,6 +2,7 @@
 
 {% block content %}
 <h2>Adding Money to Wallet</h2><br><br>
+Balance: ${{ wallet.balance }} <br>
 
 How much to add?<br>
 <form action="" method="post">{% csrf_token %}

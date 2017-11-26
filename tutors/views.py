@@ -5,7 +5,7 @@ from django.db.models import Q
 from .models import Tutor, NotAvailableSlot
 from functools import reduce
 from tutorial.models import Session
-from transactions.models import Transaction
+from transactions.models import Transaction, Wallet
 import operator
 from .models import User
 #from django.contrib.auth.models import User
@@ -14,7 +14,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse_lazy
 from datetime import datetime, timedelta
-
+from django.utils import timezone
 
 # Create your views here.
 class TutorIndex(generic.ListView):
@@ -170,10 +170,10 @@ class MyWallet(generic.ListView):
     template_name = 'wallet.html'
 
     def get_queryset(self):
-        earliest = datetime.today() - timedelta(days=30)
+        earliest = timezone.now() - timezone.timedelta(days=30)
         return Transaction.objects.filter(owner=self.request.user).filter(timestamp__gte=earliest).order_by('-timestamp')
 
     def get_context_data(self, **kwargs):
         context = super(MyWallet, self).get_context_data(**kwargs)
-        context['logged_user'] = Tutor.objects.get(tutor=self.request.user)
+        context['wallet'] = Wallet.objects.get(owner=self.request.user)
         return context

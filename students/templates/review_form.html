@@ -2,7 +2,6 @@
 
 {% block content %}
 
-
 <form action="{% url 'students:save_review' session_id %}" method="post">
 {% csrf_token %}
 <br>Rating: <input type="range" list="tickmarks" name="rating" min="0" max="5" /><br>

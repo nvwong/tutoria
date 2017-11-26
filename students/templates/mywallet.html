@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>My Wallet</h2>
-    <p>Balance: ${{ logged_user.wallet }}</p>
+    <p>Balance: ${{ wallet.balance }}</p>
     <a href="{% url 'transaction:add' %}">Add Money!</a>
 <br>
 

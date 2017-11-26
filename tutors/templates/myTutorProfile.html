@@ -30,7 +30,6 @@
       <li> Introduction:   {{ user.tutor.introduction }} </li>
       {% if user.tutor.privateTutor %}
       {% endif %}
-      <li> Wallet:   {{ user.tutor.wallet }} </li>
       <li> Rating:   {{ user.tutor.rating }} </li>
       <a class="nav-link" href="{% url 'tutors:change_phonenumber' %}">Edit</a>
       </li>

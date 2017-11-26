@@ -12,7 +12,6 @@ class Student(models.Model):
     student = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=8)
     avatar = models.ImageField(upload_to=user_directory_path)
-    wallet = models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.student.get_username()
 

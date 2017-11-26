@@ -1,8 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django_cron import CronJobBase, Schedule
 from tutors.models import Tutor
 from students.models import Student
 from datetime import date, time, datetime, timedelta
+from decimal import Decimal
+
 # Create your models here.
 # Documentation of cron job: https://pypi.python.org/pypi/django-cron/0.2.8 http://django-cron.readthedocs.io/en/latest/installation.html
 class Session(models.Model):
@@ -38,9 +41,12 @@ class Lock_and_End(CronJobBase):
             if session.start_time == current_time:
                 session.isLocked = True
             if session.end_time == current_time:
-                Wallet.objects.get(owner=session.tutor).balance += session.tutor.hourlyRate
-                Wallet.objects.get(owner=session.tutor).save()
-                Wallet.objects.get(pk=1).balance += session.tutor.hourlyRate * 0.05
-                Wallet.objects.get(pk=1).save()
+                tw = Wallet.objects.get(owner=session.tutor.tutor)
+                tw.balance += Decimal(session.tutor.hourlyRate)
+                tw.save()
+                adminac = User.objects.get(username="admin")
+                aw = Wallet.objects.get(owner=adminac)
+                aw.balance += Decimal(session.tutor.hourlyRate * 0.05)
+                aw.save()
             session.save()
                 #myTutors.wallet += session.tutor.hourly_rate*0.05

@@ -3,9 +3,6 @@
 {% block content %}
 <h2>Adding Money to Wallet</h2><br><br>
 
-<p>Balance: ${{ logged_user.wallet }}</p>
-
-
 How much to add?<br>
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}

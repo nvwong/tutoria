@@ -23,7 +23,7 @@ def signup_tutor(request):
             user.tutor.phoneNumber = form.cleaned_data.get('phoneNumber')
             user.tutor.privateTutor = form.cleaned_data.get('privateTutor')
             user.tutor.university = form.cleaned_data.get('university')
-            user.tutor.hourly_rate = form.cleaned_data.get('hourly_rate')
+            user.tutor.hourlyRate = form.cleaned_data.get('hourly_rate')
             user.tutor.introduction = form.cleaned_data.get('introduction')
             user.tutor.avatar = form.cleaned_data['avatar']
             g = Group.objects.get(name='Tutor')
